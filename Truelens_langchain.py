@@ -7,6 +7,10 @@ from trulens_eval.feedback import Feedback, Huggingface, OpenAI
 
 from langchain_community.llms import Ollama
 import os
+
+from trulens_eval import Tru
+tru=Tru()
+
 os.environ["OPENAI_API_KEY"] = "sk-*"
 
 llm = Ollama(model="llama2")
@@ -66,6 +70,14 @@ truchain = TruChain(
 # Note: any `feedbacks` specified here will be evaluated and logged whenever the chain is used.
 #truchain("What is my total order count?")
 
+prompts = [
+    "What company acquired MosaicML?",
+    "What's the best way to travel from NYC to LA?",
+    "How did the change in the exchange rate during 2021 affect the stock price of US based companies?",
+    "Compare the stock performance of Google and Microsoft",
+    "What is the highest market cap airline that flies from Los Angeles to New York City?",
+    "I'm interested in buying a new smartphone from the producer with the highest stock price. Which company produces the smartphone I should by and what is their current stock price?"
+]
 
 with truchain as recording:
     chain("What is my bill amount?")
@@ -79,3 +91,5 @@ tru_record = recording.records[0]
 
 for feedback, feedback_result in rec.wait_for_feedback_results().items():
     print(feedback.name, feedback_result.result)
+
+tru.run_dashboard()
