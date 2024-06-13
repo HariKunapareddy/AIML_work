@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Simple employee API
+  version: 1.0.0
+  description: >-
+    Any question related to the employee will be answered here, it has list of employees, add , update employees
+servers:
+  - url: 'https://dummy.restapiexample.com/api/v1'
+paths:
+  /employees:
+    get:
+      summary: List all employee that looking 
+      operationId: listemployee
+      responses:
+        '200':
+          description: list of employes
+  /employee/{employeeId}:
+    get:
+      summary: Return a employee by ID.
+      operationId: getempoyee
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: employee Id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+  /create:
+    post:
+      summary: Create a new Employee
+      operationId: createEmployee
+      requestBody:
+        description: Employee to add to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee created
+          
+components:
+  schemas:
+    Employee:
+      type: object
+      required:
+        - age
+        - name
+        - salary
+      properties:
+        age:
+          type: integer
+        name:
+          type: string
+        salary:
+          type: integer
